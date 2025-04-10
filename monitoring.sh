@@ -21,6 +21,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: Grafana
 metadata:
   name: grafana
+  namespace: '${NS}'
   labels:
     dashboards: "grafana"
     folders: "grafana"
@@ -53,17 +54,18 @@ spec:
       mode: console
 EOF
 
-oc -n user0 create -f grafana-secret-creds.yaml
-oc -n user0 create -f grafana-instance.yaml
-oc -n user0 get pods -l app=grafana
-oc -n user0 create route edge grafana --service=grafana-service --insecure-policy=Redirect
-oc -n user0 get route grafana -o jsonpath='{.spec.host}'
+oc -n $NS apply -f grafana-secret-creds.yaml
+oc -n $NS apply -f grafana-instance.yaml
+oc -n $NS get pods -l app=grafana
+oc -n $NS create route edge grafana --service=grafana-service --insecure-policy=Redirect
+oc -n $NS get route grafana -o jsonpath='{.spec.host}'
 
 cat <<EOF > grafana-datasource.yaml
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
   name: grafana-ds
+  namespace: '${NS}'
 spec:
   valuesFrom:
     - targetPath: "secureJsonData.httpHeaderValue1"
@@ -89,13 +91,14 @@ spec:
     editable: true
 EOF
 
-oc -n user0 create -f grafana-datasource.yaml
+oc -n $NS create -f grafana-datasource.yaml
 
 cat <<EOF > grafana-dashboard-ocp-v.yaml
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: grafana-dashboard-cnpg
+  namespace: '${NS}'
   labels:
     app: grafana
 spec:
@@ -105,4 +108,4 @@ spec:
   folder: "CloudNativePG"      
   url: https://raw.githubusercontent.com/cloudnative-pg/grafana-dashboards/refs/heads/main/charts/cluster/grafana-dashboard.json
 EOF
-oc -n user0 create -f grafana-dashboard-ocp-v.yaml
+oc -n $NS create -f grafana-dashboard-ocp-v.yaml

@@ -28,3 +28,4 @@ resources:
 - assets/user24.yml
 - assets/user25.yml
 - assets/grafana.yml
+- assets/group.yml
