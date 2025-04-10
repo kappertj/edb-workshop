@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- assets/user1.yml
+- assets/user2.yml
+- assets/user3.yml
+- assets/user4.yml
+- assets/user5.yml
+- assets/user6.yml
+- assets/user7.yml
+- assets/user8.yml
+- assets/user9.yml
+- assets/user10.yml
+- assets/user11.yml
+- assets/user12.yml
+- assets/user13.yml
+- assets/user14.yml
+- assets/user15.yml
+- assets/user16.yml
+- assets/user17.yml
+- assets/user18.yml
+- assets/user19.yml
+- assets/user20.yml
+- assets/user21.yml
+- assets/user22.yml
+- assets/user23.yml
+- assets/user24.yml
+- assets/user25.yml
+- assets/grafana.yml
