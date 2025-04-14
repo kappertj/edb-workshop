@@ -7,20 +7,20 @@ metadata:
     argocd.argoprojo.io/sync-wave: "-10"
   labels:
     openshift.io/cluster-monitoring: "true"
-  name: user0
+  name: admin
 spec: {}
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: grafana-sa
-  namespace: user0
+  namespace: admin
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: minio-pvc
-  namespace: user0
+  namespace: admin
 spec:
   accessModes:
     - ReadWriteOnce
@@ -33,9 +33,9 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   labels:
-    operators.coreos.com/cloudnative-pg.user0: ""
+    operators.coreos.com/cloudnative-pg.admin: ""
   name: cloudnative-pg
-  namespace: user0
+  namespace: admin
 spec:
   channel: stable-v1
   installPlanApproval: Automatic
@@ -49,18 +49,18 @@ kind: OperatorGroup
 metadata:
   annotations:
     olm.providedAPIs: Backup.v1.postgresql.cnpg.io,Cluster.v1.postgresql.cnpg.io,ClusterImageCatalog.v1.postgresql.cnpg.io,Database.v1.postgresql.cnpg.io,ImageCatalog.v1.postgresql.cnpg.io,Pooler.v1.postgresql.cnpg.io,Publication.v1.postgresql.cnpg.io,ScheduledBackup.v1.postgresql.cnpg.io,Subscription.v1.postgresql.cnpg.io
-  namespace: user0
+  namespace: admin
   name: cloudnativepg-operatorgroup
 spec:
   targetNamespaces:
-  - user0
+  - admin
   upgradeStrategy: Default
 ---
 kind: Secret
 apiVersion: v1
 metadata:
   name: minio-secret
-  namespace: user0
+  namespace: admin
 stringData:
   # change the username and password to your own values.
   # ensure that the user is at least 3 characters long and the password at least 8
@@ -71,7 +71,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: minio
-  namespace: user0
+  namespace: admin
 spec:
   replicas: 1
   selector:
@@ -155,7 +155,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: minio-service
-  namespace: user0
+  namespace: admin
 spec:
   ipFamilies:
     - IPv4
@@ -179,7 +179,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: minio-api
-  namespace: user0
+  namespace: admin
 spec:
   to:
     kind: Service
@@ -196,7 +196,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: minio-ui
-  namespace: user0
+  namespace: admin
 spec:
   to:
     kind: Service
