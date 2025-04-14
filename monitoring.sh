@@ -59,6 +59,7 @@ oc -n $NS apply -f grafana-instance.yaml
 oc -n $NS get pods -l app=grafana
 oc -n $NS create route edge grafana --service=grafana-service --insecure-policy=Redirect
 oc -n $NS get route grafana -o jsonpath='{.spec.host}'
+oc adm policy add-cluster-role-to-user cluster-monitoring-view -z grafana-sa -n $NS
 
 cat <<EOF > grafana-datasource.yaml
 apiVersion: grafana.integreatly.org/v1beta1
