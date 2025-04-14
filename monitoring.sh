@@ -94,7 +94,7 @@ spec:
     editable: true
 EOF
 
-oc -n $NS create -f grafana-datasource.yaml
+oc -n $NS apply -f grafana-datasource.yaml
 
 cat <<EOF > grafana-dashboard-ocp-v.yaml
 apiVersion: grafana.integreatly.org/v1beta1
@@ -111,4 +111,4 @@ spec:
   folder: "CloudNativePG"      
   url: https://raw.githubusercontent.com/cloudnative-pg/grafana-dashboards/refs/heads/main/charts/cluster/grafana-dashboard.json
 EOF
-oc -n $NS create -f grafana-dashboard-ocp-v.yaml
+oc -n $NS apply -f grafana-dashboard-ocp-v.yaml
