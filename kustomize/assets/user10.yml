@@ -10,12 +10,6 @@ metadata:
   name: user10
 spec: {}
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: grafana-sa
-  namespace: user10
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
