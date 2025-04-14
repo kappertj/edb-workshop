@@ -1,20 +1,7 @@
 NS=`oc whoami`
 
 oc project $NS
-TOKEN=`oc -n  $NS create  token grafana-sa --duration=$((365*24))h`
 
-cat <<EOF > grafana-secret-creds.yaml
-kind: Secret
-apiVersion: v1
-metadata:
-  name: credentials
-  namespace: '${NS}'
-stringData:
-  GF_SECURITY_ADMIN_PASSWORD: grafana
-  GF_SECURITY_ADMIN_USER: admin
-  PROMETHEUS_TOKEN: '${TOKEN}'
-type: Opaque
-EOF
 
 cat <<EOF > grafana-instance.yaml
 apiVersion: grafana.integreatly.org/v1beta1
@@ -52,6 +39,21 @@ spec:
     log:
       level: warn
       mode: console
+EOF
+
+TOKEN=`oc -n  $NS create  token grafana-sa --duration=$((365*24))h`
+
+cat <<EOF > grafana-secret-creds.yaml
+kind: Secret
+apiVersion: v1
+metadata:
+  name: credentials
+  namespace: '${NS}'
+stringData:
+  GF_SECURITY_ADMIN_PASSWORD: grafana
+  GF_SECURITY_ADMIN_USER: admin
+  PROMETHEUS_TOKEN: '${TOKEN}'
+type: Opaque
 EOF
 
 oc -n $NS apply -f grafana-secret-creds.yaml
