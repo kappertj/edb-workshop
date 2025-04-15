@@ -28,5 +28,10 @@ resources:
 - assets/user23.yml
 - assets/user24.yml
 - assets/user25.yml
+- assets/user26.yml
+- assets/user27.yml
+- assets/user28.yml
+- assets/user29.yml
+- assets/user30.yml
 - assets/grafana.yml
 - assets/group.yml
