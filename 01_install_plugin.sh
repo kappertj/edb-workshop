@@ -9,5 +9,5 @@ curl -sSfL \
   #sh -s -- -b /usr/local/bin
   sh -s -- -b ~/bin
 
-chmod +x ~/bin/kubectl-cnp
+chmod +x ~/bin/kubectl-cnpg
 
